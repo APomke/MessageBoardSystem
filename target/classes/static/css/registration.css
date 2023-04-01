@@ -1,0 +1,159 @@
+body {
+    background-color: #f1f1f1;
+    font-family: Arial, sans-serif;
+}
+
+form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+}
+
+h1 {
+    color: #0080ff;
+    font-size: 36px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+button {
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding: 12px 20px;
+    width: 100%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    border-color: #0080ff;
+    box-shadow: 0px 0px 5px #0080ff;
+}
+
+/* 将表单居中 */
+form {
+    margin: 0 auto;
+    max-width: 400px;
+}
+
+/* 更改页面标题的样式 */
+h1 {
+    color: #0080ff;
+    font-family: Arial, sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+    text-align: center;
+}
+
+/* 添加背景颜色和边框样式 */
+body {
+    background-color: #f1f1f1;
+}
+
+form {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+}
+
+/* 更改按钮的样式 */
+button[type="submit"] {
+    background-color: #0080ff;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 14px 20px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #0059b3;
+}
+
+/* 更改输入框的样式 */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 20px;
+    color: #333;
+    font-size: 16px;
+    padding: 10px 15px;
+    width: 100%;
+}
+
+/* 更改输入框获取焦点时的样式 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    background-color: #fff;
+    border: 2px solid #0080ff;
+    box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
+}
+
+/* 添加错误消息的样式 */
+.error {
+    color: #f00;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* 更改输入框标签的样式 */
+label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* 更改输入框组的样式 */
+.input-group {
+    margin-bottom: 30px;
+}
+
+/* 更改输入框组的样式 */
+.input-group:last-child {
+    margin-bottom: 0;
+}
+
+/* 更改输入框组的样式 */
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="email"] {
+    border-radius: 20px;
+}
+
+/* 更改输入框组的样式 */
+.input-group:last-child input[type="text"],
+.input-group:last-child input[type="password"],
+.input-group:last-child input[type="email"] {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+/* 更改提交按钮组的样式 */
+.button-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+/* 更改提交按钮组的样式 */
+.button-group button[type="submit"] {
+    margin-top: 20px;
+    width: 48%;
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>留言系统登入</title>
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+<form th:action="@{/message/index}">
+  <h1>企业留言系统登入</h1>
+  <div class="input-group">
+    <label for="username">用户名</label>
+    <input type="text" id="username" name="account" placeholder="请输入用户名">
+  </div>
+  <div class="input-group">
+    <label for="password">密码</label>
+    <input type="password" id="password" name="password" placeholder="请输入密码">
+  </div>
+  <div class="input-group captcha-group">
+    <div class="captcha-label">
+      <label for="captcha">验证码</label>
+    </div>
+    <div class="captcha">
+      <canvas id="captcha-canvas" width="120" height="40"></canvas>
+      <input type="text" id="captcha" name="captcha" placeholder="请输入验证码">
+    </div>
+  </div>
+  <p th:text="${msg}"></p>
+  <div class="button-group">
+    <button type="submit">登入</button>
+    <button type="button" class="register-button" id="register-button">注册</button>
+  </div>
+</form>
+
+<script th:src="@{/js/login.js}"></script>
+<script>
+  document.getElementById('register-button').addEventListener('click', function() {
+    window.location.href = '/registration';
+  });
+</script>
+</body>
+</html>

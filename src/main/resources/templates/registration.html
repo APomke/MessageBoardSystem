@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>留言系统注册</title>
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+<form onsubmit="return validateForm()" th:action="@{/registration/email}" enctype="multipart/form-data" method="post">
+    <h1>企业留言系统注册</h1>
+    <div class="input-group">
+        <label for="username">账号</label>
+        <input type="text" id="username" name="account" placeholder="请输入账号">
+    </div>
+
+    <div class="input-group">
+        <label for="password">密码</label>
+        <input type="password" id="password" name="password" placeholder="请输入密码">
+    </div>
+    <div class="input-group">
+        <label for="confirm-password">确认密码</label>
+        <input type="password" id="confirm-password" name="confirm-password" placeholder="请确认密码">
+        <span id="password-error" class="error-message"></span>
+    </div>
+    <div class="input-group">
+        <label for="avatar">头像</label>
+        <input type="file" id="avatar" name="avatar">
+    </div>
+    <div class="input-group">
+        <label for="department">所在部门</label>
+        <input type="number" id="department" name="deptId" placeholder="请输入所在部门id">
+    </div>
+    <div class="input-group">
+        <label for="nickname">昵称</label>
+        <input type="text" id="nickname" name="nickname" placeholder="请输入昵称">
+    </div>
+    <div class="input-group">
+        <label for="nickname">邮箱</label>
+        <input type="text" id="email" name="email" placeholder="请输入邮箱">
+        <span id="email-error" class="error-message"></span>
+    </div>
+    <p th:text="${msg}"></p>
+    <div class="button-group">
+        <button type="submit">下一步</button>
+    </div>
+</form>
+
+<script>
+    function validateForm() {
+        var password1 = document.getElementById("password").value;
+        var password2 = document.getElementById("confirm-password").value;
+        var email = document.getElementById("email").value;
+        var passwordErrorElement = document.getElementById("password-error");
+        var emailErrorElement = document.getElementById("email-error");
+
+        // 验证密码
+        if (password1 != password2) {
+            passwordErrorElement.innerText = "两次输入的密码不一致";
+            return false;
+        } else {
+            passwordErrorElement.innerText = "";
+        }
+
+        // 验证邮箱格式
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            emailErrorElement.innerText = "邮箱格式不正确";
+            return false;
+        } else {
+            emailErrorElement.innerText = "";
+        }
+
+        return true;
+    }
+</script>
+
+
+</body>
+</html>

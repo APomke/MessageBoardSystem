@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>公司留言板系统</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <h1 class="logo">MBS</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <nav>
+        <ul>
+            <li><a href="#">个人中心</a></li>
+            <li><a href="#">消息</a></li>
+            <li><a href="#">我的留言</a></li>
+        </ul>
+    </nav>
+    <form action="#" method="get">
+        <input type="text" placeholder="搜索留言">
+        <button type="submit">搜索</button>
+    </form>
+</header>
+
+<!-- User profile -->
+<aside>
+    <div class="user-profile">
+        <img th:src="'/' + ${user.getAvatarUrl()}" alt="Profile picture">
+        <h3 th:text="${user.getNickname()}"></h3>
+        <p th:text="${user.getEmail()}">@johndoe</p>
+        <p>
+            <span th:if="${user.getDeptId() == 1}">管理部</span>
+            <span th:if="${user.getDeptId() == 2}">运营部</span>
+            <span th:if="${user.getDeptId() == 3}">财务部</span>
+            <span th:if="${user.getDeptId() == 4}">技术部</span>
+        </p>
+    </div>
+</aside>
+
+<!-- Announcements -->
+<section>
+    <h2>公司公告</h2>
+    <div class="announcement">
+        <h3>New features now available</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse varius enim in eros elementum tristique.</p>
+    </div>
+    <div class="announcement">
+        <h3>Maintenance scheduled for next week</h3>
+        <p>Suspendisse potenti. Sed efficitur laoreet tortor sed hendrerit. Etiam nisl libero, posuere vitae orci nec, aliquam fermentum sapien.</p>
+    </div>
+</section>
+
+<!-- Main content -->
+<main>
+    <div class="tweet">
+        <img src="https://via.placeholder.com/50" alt="Profile picture">
+        <div>
+            <h4>John Doe</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor leo vitae velit vestibulum, eu scelerisque diam feugiat. Sed malesuada dignissim purus.</p>
+            <small>10:30 AM - 31 Mar 2023</small>
+            <div class="actions">
+                <button>Reply</button>
+                <button>Retweet</button>
+                <button>Like</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="tweet">
+        <img src="https://via.placeholder.com/50" alt="Profile picture">
+        <div>
+            <h4>Jane Smith</h4>
+            <p>Suspendisse potenti. Sed efficitur laoreet tortor sed hendrerit. Etiam nisl libero, posuere vitae orci nec, aliquam fermentum sapien.</p>
+            <small>9:45 AM - 31 Mar 2023</small>
+            <div class="actions">
+                <button>Reply</button>
+                <button>Retweet</button>
+                <button>Like</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 公司留言板系统 2023</p>
+</footer>
+</body>
+</html>

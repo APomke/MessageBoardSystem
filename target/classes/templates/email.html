@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发送邮箱验证码</title>
+    <link rel="stylesheet" th:href="@{/css/email.css}">
+</head>
+<body>
+<form th:action="@{/login/email}">
+    <p th:text="${msg}"></p>
+    <div class="input-group">
+        <label for="email">请输入您的邮箱地址：</label>
+        <input type="text" id="email" name="email" required>
+    </div>
+    <div class="input-group">
+        <label for="verification-code">请输入验证码：</label>
+        <input type="text" id="verification-code" name="code" required>
+    </div>
+    <div class="button-group">
+        <button type="button" id="send-button" onclick="sendVerificationCode()">发送验证码</button>
+        <span id="countdown"></span>
+    </div>
+    <div class="button-group">
+        <button type="submit" id="verify-button" disabled>提交</button>
+    </div>
+</form>
+<script th:src="@{/js/email.js}"></script>
+</body>
+</html>

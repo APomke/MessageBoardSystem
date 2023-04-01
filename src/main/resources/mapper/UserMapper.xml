@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.UserMapper">
+    <select id="getAllUser" resultType="com.example.mbs.pojo.User">
+        select * from user
+    </select>
+    <select id="getUserById" parameterType="int" resultType="com.example.mbs.pojo.User">
+        select * from user where id=#{id}
+    </select>
+    <select id="getUserByAccountAndPassword" parameterType="String" resultType="com.example.mbs.pojo.User">
+        select * from user where account=#{account} and password=#{password}
+    </select>
+    <select id="getUserByNickname" parameterType="String" resultType="com.example.mbs.pojo.User">
+        select * from user where nickname=#{nickname}
+    </select>
+    <insert id="addUser" parameterType="com.example.mbs.pojo.User">
+        insert into user (account, password, nickname, role, deptId, email, avatarUrl)
+        VALUES (#{account},#{password},#{nickname},#{role},#{deptId},#{email},#{avatarUrl})
+    </insert>
+    <update id="update" parameterType="com.example.mbs.pojo.User">
+        update user set account=#{account},password=#{password},nickname=#{nickname},role=#{role},deptId=#{deptId},email=#{email},avatarUrl=#{avatarUrl}
+        where id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="int">
+        delete from user where id=#{id}
+    </delete>
+</mapper>
