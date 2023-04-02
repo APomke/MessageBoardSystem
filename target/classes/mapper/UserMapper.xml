@@ -8,7 +8,7 @@
         select * from user
     </select>
     <select id="getUserById" parameterType="int" resultType="com.example.mbs.pojo.User">
-        select * from user where id=#{id}
+        select * from user where id=#{userId}
     </select>
     <select id="getUserByAccountAndPassword" parameterType="String" resultType="com.example.mbs.pojo.User">
         select * from user where account=#{account} and password=#{password}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.DepartMentMapper">
+    <select id="getDeptCount" parameterType="com.example.mbs.pojo.Department" resultType="com.example.mbs.pojo.Department">
+        select * from department where deptId=#{deptId}
+    </select>
+    <select id="getAllDept" resultType="com.example.mbs.pojo.Department">
+        select * from department
+    </select>
+
+    <update id="addDeptCount" parameterType="com.example.mbs.pojo.Department">
+        update department set deptSize=#{deptSize} where deptId=#{deptId}
+    </update>
+
+    <update id="removeDeptCount" parameterType="com.example.mbs.pojo.Department">
+        update department set deptSize=#{deptSize} where deptId=#{deptId}
+    </update>
+</mapper>

@@ -52,31 +52,21 @@
 
 <!-- Main content -->
 <main>
-    <div class="tweet">
-        <img src="https://via.placeholder.com/50" alt="Profile picture">
+    <div th:each="message : ${messageList}" class="tweet" th:id="'tweet-' + ${message.id}">
+        <img th:src="'/' + ${message.getImagePath}" alt="Profile picture">
         <div>
-            <h4>John Doe</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor leo vitae velit vestibulum, eu scelerisque diam feugiat. Sed malesuada dignissim purus.</p>
-            <small>10:30 AM - 31 Mar 2023</small>
+            <h4 th:text="${message.getTopic()}">John Doe</h4>
+            <p th:text="${message.getContent()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor leo vitae velit vestibulum, eu scelerisque diam feugiat. Sed malesuada dignissim purus.</p>
+            <small th:text="${message.getTime()}">10:30 AM - 31 Mar 2023</small>
             <div class="actions">
-                <button>Reply</button>
-                <button>Retweet</button>
-                <button>Like</button>
+                <button class="btn btn-link view-comments">查看评论</button>
+                <button class="btn btn-link like-tweet" th:data-tweet-id="${message.id}">点赞</button>
             </div>
-        </div>
-    </div>
-
-    <div class="tweet">
-        <img src="https://via.placeholder.com/50" alt="Profile picture">
-        <div>
-            <h4>Jane Smith</h4>
-            <p>Suspendisse potenti. Sed efficitur laoreet tortor sed hendrerit. Etiam nisl libero, posuere vitae orci nec, aliquam fermentum sapien.</p>
-            <small>9:45 AM - 31 Mar 2023</small>
-            <div class="actions">
-                <button>Reply</button>
-                <button>Retweet</button>
-                <button>Like</button>
-            </div>
+            <form action="/message/comment" method="post">
+                <input type="text" placeholder="请输入评论..." name="content">
+                <input type="hidden" name="messageId" th:value="${message.id}">
+                <button type="submit">发送评论</button>
+            </form>
         </div>
     </div>
 </main>

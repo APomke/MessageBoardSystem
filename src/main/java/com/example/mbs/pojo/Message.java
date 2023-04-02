@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Message {
     private int id;
+    private int masterId;
     private String topic;
     private String content;
     private int likes;
-    private String type;
+    private int typeId;
     private int comments;
     private String imagePath;
     private String time;

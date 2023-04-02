@@ -1,11 +1,9 @@
 package com.example.mbs.controller;
 
 import com.example.mbs.pojo.Code;
+import com.example.mbs.pojo.Message;
 import com.example.mbs.pojo.User;
-import com.example.mbs.service.CodeService;
-import com.example.mbs.service.CodeServiceImpl;
-import com.example.mbs.service.EmailService;
-import com.example.mbs.service.UserServiceImpl;
+import com.example.mbs.service.*;
 import com.example.mbs.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
@@ -14,16 +12,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.Session;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -41,20 +39,79 @@ public class LoginController {
     @Autowired
     private ResourceLoader resourceLoader;
 
+    @Autowired
+    private MessageServiceImpl messageService;
 
-    @RequestMapping("/message/index")
+
+    @PostMapping("/message/index")
     public String login(User user, Model model, HttpServletRequest request){
+        //判断是否已登入
+        User user1 = new User();
+        if (request.getSession().getAttribute(Constants.USER_SESSION) != null){
+            user1 = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+            model.addAttribute("user",user1);
+            //获取前5条留言
+            List<Message> messageList = messageService.queryMessageLimitFive();
+            List<Message> newMessageList = new ArrayList<>();
+            //根据用户id获取用户头像
+            for (Message message:messageList){
+                User userId = userService.getUserById(message.getMasterId());
+                if (userId != null) {
+                    message.setImagePath(userId.getAvatarUrl());
+                    newMessageList.add(message);
+                }
+            }
+            model.addAttribute("messageList",newMessageList);
+            return "index";
+        }
         //判断是否有该用户
-        User user1 = userService.getUserByAccountAndPassword(user.getAccount(),user.getPassword());
+        user1 = userService.getUserByAccountAndPassword(user.getAccount(),user.getPassword());
         if (user1 != null){
             //添加session
             request.getSession().setAttribute(Constants.USER_SESSION,user1);
             model.addAttribute("user",user1);
+            List<Message> messageList = messageService.queryMessageLimitFive();
+            List<Message> newMessageList = new ArrayList<>();
+            //根据用户id获取用户头像
+            for (Message message:messageList){
+                User userId = userService.getUserById(message.getMasterId());
+                if (userId != null) {
+                    message.setImagePath(userId.getAvatarUrl());
+                    newMessageList.add(message);
+                }
+            }
+            model.addAttribute("messageList",newMessageList);
             return "index";
         }
         model.addAttribute("msg","登入失败，请检查账号密码是否正确");
         return "login";
     }
+
+    @GetMapping("/message/index")
+    public String index(Model model, HttpServletRequest request) {
+        // 判断用户是否已登录
+        User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+        if (user == null) {
+            // 如果用户尚未登录，则跳转到登录页面
+            return "login";
+        } else {
+            // 如果用户已经登录，则返回首页
+            model.addAttribute("user", user);
+            List<Message> messageList = messageService.queryMessageLimitFive();
+            List<Message> newMessageList = new ArrayList<>();
+            //根据用户id获取用户头像
+            for (Message message:messageList){
+                User userId = userService.getUserById(message.getMasterId());
+                if (userId != null) {
+                    message.setImagePath(userId.getAvatarUrl());
+                    newMessageList.add(message);
+                }
+            }
+            model.addAttribute("messageList",newMessageList);
+            return "index";
+        }
+    }
+
 
     @RequestMapping("/registration")
     public String registration(){

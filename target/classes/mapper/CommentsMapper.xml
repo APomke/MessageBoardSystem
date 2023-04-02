@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.CommentsMapper">
+    <insert id="addComments" parameterType="com.example.mbs.pojo.Comments">
+        insert into comments (messageId, commentUserId, commentContent, commentLevel, commentTime)
+        VALUES (#{messageId},#{commentUserId},#{commentContent},#{commentLevel},#{commentTime})
+    </insert>
+    <select id="queryCommentsByMessageId" parameterType="int" resultType="com.example.mbs.pojo.Comments">
+        select * from comments where messageId=#{messageId}
+    </select>
+    <select id="queryAllComments" resultType="com.example.mbs.pojo.Comments">
+        select * from comments
+    </select>
+    <select id="queryCommentsByUserId" parameterType="int" resultType="com.example.mbs.pojo.Comments">
+        select * from comments where commentUserId=#{userId}
+    </select>
+    <delete id="deleteComments" parameterType="int">
+        delete from comments where commentId=#{commentsId}
+    </delete>
+    <delete id="deleteAllCommentsByMessageId" parameterType="int">
+        delete from comments where messageId=#{messageId}
+    </delete>
+</mapper>

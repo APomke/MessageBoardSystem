@@ -35,6 +35,11 @@ input[type="password"]:focus {
     border-color: #0080ff;
     box-shadow: 0px 0px 5px #0080ff;
 }
+input[type="number"]:focus,
+select:focus {
+    border-color: #0080ff;
+    box-shadow: 0px 0px 5px #0080ff;
+}
 
 button {
     background-color: #0080ff;
@@ -157,4 +162,33 @@ button.register-button:hover {
 /* Active effect */
 .input-group input[type="file"]:active {
     background-color: #005da5;
+}
+
+.input-group input[type="number"] {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.input-group input[type="number"]:focus {
+    border-color: #007bff;
+}
+
+/* 添加下拉单选框样式 */
+.input-group select {
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.input-group select:focus {
+    border-color: #007bff;
 }

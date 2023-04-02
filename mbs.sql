@@ -65,10 +65,11 @@ CREATE TABLE `role` (
 /*
 --留言表
 留言id int(255) 主键自增
+留言发布人id
 留言主题 varchar(255)
 留言内容 varchar(255)
 留言点赞数 int(255)
-留言类型 varchar(255)
+留言类型id int(255)
 留言评论数 int(255)
 留言图片路径 varchar(255)
 留言时间 varchar(255)
@@ -76,16 +77,32 @@ CREATE TABLE `role` (
 
 CREATE TABLE message (
     id INT(255) NOT NULL AUTO_INCREMENT,
+    masterId INT(255) NOT NULL,
     topic VARCHAR(255),
     content VARCHAR(255),
     likes INT(255) DEFAULT 0,
-    type VARCHAR(255),
+    typeId INT(255),
     comments INT(255) DEFAULT 0,
     imagePath VARCHAR(255),
     time VARCHAR (255),
     PRIMARY KEY (id)
 );
 
+/*
+类型表
+类型id 主键自增
+类型名称 varchar(255)
+*/
+CREATE TABLE type (
+    typeId INT(255) NOT NULL AUTO_INCREMENT,
+    typeName VARCHAR(255) NOT NULL,
+    PRIMARY KEY (typeId)
+);
+
+INSERT INTO type (typeName) VALUES ("生活");
+INSERT INTO type (typeName) VALUES ("公务");
+INSERT INTO type (typeName) VALUES ("通知");
+INSERT INTO type (typeName) VALUES ("其它");
 
 /*
 -- 评论表
@@ -100,7 +117,7 @@ CREATE TABLE message (
 CREATE TABLE comments (
     commentId INT(255) PRIMARY KEY AUTO_INCREMENT,
     messageId INT(255),
-    commentUser VARCHAR(255),
+    commentUserId INT(255),
     commentContent VARCHAR(255),
     commentLevel INT(20),
     commentTime VARCHAR(255)
