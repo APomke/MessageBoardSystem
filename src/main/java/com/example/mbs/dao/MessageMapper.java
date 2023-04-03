@@ -27,5 +27,7 @@ public interface MessageMapper {
     List<Message> queryMessageLimitFive();
     //根据类型查询留言
     List<Message> queryMessageByType(@Param("typeId") int typeId);
+    //通过id查询留言
+    Message getMessageById(@Param("messageIds") int id);
 
 }

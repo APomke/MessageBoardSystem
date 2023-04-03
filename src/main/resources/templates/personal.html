@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/personal_center.css}">
+</head>
+<body>
+<!-- Header -->
+<header>
+    <h1 class="logo">MBS</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <nav>
+        <ul>
+            <li><a th:href="@{/message/index}">公司留言板</a></li>
+            <li><a href="#">消息</a></li>
+            <li><a href="#">我的留言</a></li>
+        </ul>
+    </nav>
+    <form action="#" method="get">
+        <input type="text" placeholder="搜索留言">
+        <button type="submit">搜索</button>
+    </form>
+</header>
+
+<!-- User profile -->
+<section class="user-profile">
+    <img th:src="'/' + ${user.getAvatarUrl()}" alt="Profile picture">
+    <h2 th:text="${user.getNickname()}">John Doe</h2>
+    <p th:text="${user.getEmail()}">johndoe@example.com</p>
+    <p>
+        <span th:if="${user.getDeptId() == 1}">管理部</span>
+        <span th:if="${user.getDeptId() == 2}">运营部</span>
+        <span th:if="${user.getDeptId() == 3}">财务部</span>
+        <span th:if="${user.getDeptId() == 4}">技术部</span>
+    </p>
+    <button>编辑个人资料</button>
+</section>
+
+<!-- Personal information -->
+<section class="personal-info">
+    <h2>个人信息</h2>
+    <dl>
+        <dt>姓名：</dt>
+        <dd th:text="${user.getNickname()}">John Doe</dd>
+        <dt>邮箱：</dt>
+        <dd th:text="${user.getEmail()}">johndoe@example.com</dd>
+        <dt>部门：</dt>
+        <dd>
+            <span th:if="${user.getDeptId() == 1}">管理部</span>
+            <span th:if="${user.getDeptId() == 2}">运营部</span>
+            <span th:if="${user.getDeptId() == 3}">财务部</span>
+            <span th:if="${user.getDeptId() == 4}">技术部</span>
+        </dd>
+        <dt>职位：</dt>
+        <dd th:text="${user.getRole()}">软件工程师</dd>
+    </dl>
+</section>
+
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 公司留言板系统 2023</p>
+</footer>
+</body>
+</html>

@@ -11,9 +11,9 @@
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <nav>
         <ul>
-            <li><a href="#">个人中心</a></li>
+            <li><a th:href="@{/personal}">个人中心</a></li>
             <li><a href="#">消息</a></li>
-            <li><a href="#">我的留言</a></li>
+            <li><a th:href="@{/myMessage}">我的留言</a></li>
         </ul>
     </nav>
     <form action="#" method="get">
@@ -75,5 +75,34 @@
 <footer>
     <p>&copy; 公司留言板系统 2023</p>
 </footer>
+
+<script th:src="@{/js/jquery.js}"></script>
+<script>
+    // 监听点赞按钮的点击事件
+    $(".like-tweet").click(function() {
+        var tweetId = $(this).data("tweet-id"); // 获取点赞的留言ID
+
+        // 发送AJAX请求
+        $.ajax({
+            type: "POST",
+            url: "/like-tweet", // 后端处理点赞的接口地址
+            data: { tweetId: tweetId },
+            success: function(response) { // 处理后端响应
+                if (response.success) { // 点赞成功
+                    console.log("点赞成功");
+                    // 修改点赞按钮的样式，表示已经点赞，并禁用按钮
+                    var likeButton = $('.like-tweet[data-tweet-id="' + tweetId + '"]');
+                    likeButton.addClass('liked').prop('disabled', true).text(response.likeCount + '已点赞');
+                } else {
+                    alert("点赞失败：" + response.message); // 处理点赞失败的情况
+                }
+            },
+            error: function() { // 处理请求异常情况
+                alert("请求出错，请重试！");
+            }
+        });
+    });
+
+</script>
 </body>
 </html>

@@ -51,4 +51,9 @@ public class MessageServiceImpl implements MessageService{
     public List<Message> queryMessageByType(int typeId) {
         return messageMapper.queryMessageByType(typeId);
     }
+
+    @Override
+    public Message getMessageById(int id) {
+        return messageMapper.getMessageById(id);
+    }
 }

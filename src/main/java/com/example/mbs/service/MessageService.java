@@ -22,4 +22,6 @@ public interface MessageService {
     List<Message> queryMessageLimitFive();
     //根据类型查询留言
     List<Message> queryMessageByType(int typeId);
+    //通过id查询留言
+    Message getMessageById(int id);
 }
