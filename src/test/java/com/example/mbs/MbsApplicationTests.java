@@ -47,29 +47,7 @@ class MbsApplicationTests {
     @Autowired
     private MessageServiceImpl messageService;
 
-    @Test
-    public void messageTest1(){
-        Message message = new Message(0,101,"第一次留言","额额额。。。不知道说什么",0,4,0,"无","2023-04-02");
 
-        int s = messageService.addMessage(message);
-        if (s == 1){
-            System.out.println("留言添加成功");
-        }else {
-            System.out.println("留言添加失败");
-        }
-    }
-
-    @Test
-    public void messageTest2(){
-        Message message = new Message(1,101,"第一次留言","额额额。。。不知道说什么",2,4,0,"无","2023-04-02");
-
-        int s = messageService.likesMessage(message);
-        if (s == 1){
-            System.out.println("点赞成功");
-        }else {
-            System.out.println("点赞失败");
-        }
-    }
 
     @Test
     public void messageTest3(){
@@ -91,16 +69,16 @@ class MbsApplicationTests {
     @Autowired
     private CommentsServiceImpl commentsService;
 
-    @Test
-    public void commentsTest1(){
-        Comments comments = new Comments(0,1,101,"第一次评论",1,"2023-04-02");
-        int s =  commentsService.addComments(comments);
-        if (s == 1){
-            System.out.println("评论添加成功");
-        }else{
-            System.out.println("评论添加失败");
-        }
-    }
+//    @Test
+//    public void commentsTest1(){
+//        Comments comments = new Comments(0,1,101,"第一次评论",1,"2023-04-02");
+//        int s =  commentsService.addComments(comments);
+//        if (s == 1){
+//            System.out.println("评论添加成功");
+//        }else{
+//            System.out.println("评论添加失败");
+//        }
+//    }
 
     @Test
     public void commentsTest2(){

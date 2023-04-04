@@ -14,4 +14,7 @@ public class Comments {
     private String commentContent;
     private int commentLevel;
     private String commentTime;
+    private String masterUrl;
+    private int mainComment;
+    private String userNickName;
 }

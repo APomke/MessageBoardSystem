@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.mbs.dao.MessageMapper">
     <insert id="addMessage" parameterType="com.example.mbs.pojo.Message">
-        insert into message (masterId, topic, content, likes, typeId, comments, imagePath, time)
-        VALUES (#{masterId},#{topic},#{content},#{likes},#{typeId},#{comments},#{imagePath},#{time})
+        insert into message (masterId, topic, content, likes, typeId, comments, imagePath, time,userNickName)
+        VALUES (#{masterId},#{topic},#{content},#{likes},#{typeId},#{comments},#{imagePath},#{time},#{userNickName})
     </insert>
     <update id="likesMessage" parameterType="com.example.mbs.pojo.Message">
         update message set likes=#{likes} where id=#{id} and masterId=#{masterId}

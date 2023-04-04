@@ -1,6 +1,7 @@
 package com.example.mbs.controller;
 
 import com.example.mbs.pojo.Code;
+import com.example.mbs.pojo.Comments;
 import com.example.mbs.pojo.Message;
 import com.example.mbs.pojo.User;
 import com.example.mbs.service.*;
@@ -41,6 +42,9 @@ public class LoginController {
 
     @Autowired
     private MessageServiceImpl messageService;
+
+    @Autowired
+    private CommentsServiceImpl commentsService;
 
 
     @PostMapping("/message/index")

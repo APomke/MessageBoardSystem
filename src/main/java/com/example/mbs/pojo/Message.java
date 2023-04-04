@@ -17,4 +17,5 @@ public class Message {
     private int comments;
     private String imagePath;
     private String time;
+    private String userNickName;
 }

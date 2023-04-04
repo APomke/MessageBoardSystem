@@ -3,6 +3,78 @@
 <head>
     <title>公司留言板系统</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <style>
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #e6f2ff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+            text-decoration: none;
+        }
+        .comment {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .user-info {
+            margin-right: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .reply-comment {
+            font-size: 0.9rem;
+            color: #007BFF;
+            text-decoration: none;
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            /*position: absolute;*/
+            bottom: 10px;
+            right: 10px;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .reply-comment:hover {
+            color: #0056B3;
+            text-decoration: underline;
+        }
+
+    </style>
 </head>
 <body>
 <!-- Header -->
@@ -53,13 +125,14 @@
 <!-- Main content -->
 <main>
     <div th:each="message : ${messageList}" class="tweet" th:id="'tweet-' + ${message.id}">
-        <img th:src="'/' + ${message.getImagePath}" alt="Profile picture">
+        <img th:src="'/' + ${message.getImagePath}" alt="Profile picture" style="margin-right: 10px;">
+        <p class="user-nickname" th:text="${message.getUserNickName()}" style="color: #FF5733;"></p>
         <div>
             <h4 th:text="${message.getTopic()}">John Doe</h4>
             <p th:text="${message.getContent()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor leo vitae velit vestibulum, eu scelerisque diam feugiat. Sed malesuada dignissim purus.</p>
             <small th:text="${message.getTime()}">10:30 AM - 31 Mar 2023</small>
             <div class="actions">
-                <button class="btn btn-link view-comments">查看评论</button>
+                <button class="btn btn-link view-comments" th:data-tweet-id="${message.id}">查看评论</button>
                 <button class="btn btn-link like-tweet" th:data-tweet-id="${message.id}">点赞</button>
             </div>
             <form action="/message/comment" method="post">
@@ -67,6 +140,12 @@
                 <input type="hidden" name="messageId" th:value="${message.id}">
                 <button type="submit">发送评论</button>
             </form>
+        </div>
+    </div>
+    <div id="commentsModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModalButton" class="close" onclick="closeModal()">&times;</span>
+            <h2>查看评论留言</h2>
         </div>
     </div>
 </main>
@@ -102,7 +181,98 @@
             }
         });
     });
+    // 获取评论模态框及其内容容器
+    var commentsModal = $("#commentsModal");
+    function closeModal() {
+        commentsModal.hide();
+    }
+    //监听查看评论按钮事件
+    $(".view-comments").click(function (){
+        var tweetId = $(this).data("tweet-id");//获取要查看留言的id
 
+        // 获取评论模态框及其内容容器
+        var commentsModal = $("#commentsModal");
+        var modalContent = commentsModal.find(".modal-content");
+
+
+        // 移除已有评论
+        modalContent.find(".comment").remove();
+
+        //发送ajax请求
+        $.ajax({
+            type: "POST",
+            url: "/viewComments",
+            data: {tweetId: tweetId},
+            success: function (response){
+                //输出传入的列表
+                response.forEach(function (comment) {
+                    // Log the properties of each comment
+                    console.log("Comment ID: " + comment.commentId);
+                    console.log("正文: " + comment.commentContent);
+                    console.log("-----------------------");
+
+                    //判断是否是二级评论
+                    if (comment.commentLevel == 2){
+                        // 创建一个新的评论元素
+                        var commentElement = $("<div></div>").addClass("comment").css("margin-left", "50px");
+                        // 创建一个包含头像和名称的用户信息元素
+                        var userInfo = $("<div></div>").addClass("user-info");
+                        // 添加评论者头像元素
+                        var userAvatar = $("<img>").attr("src", 'http://localhost:8080/' + comment.masterUrl).addClass("user-avatar");
+                        userInfo.append(userAvatar);
+                        // 将用户信息元素添加到评论元素中
+                        commentElement.append(userInfo);
+                        // 创建一个包含评论内容、评论者和时间戳的评论详情元素
+                        var commentDetails = $("<div></div>").addClass("comment-details");
+                        // 添加评论者元素
+                        var commenter = $("<p></p>").addClass("commenter").text("评论者: " + comment.userNickName);
+                        commentDetails.append(commenter);
+
+                        var commentContent = $("<h7></h7>").text(comment.commentContent);
+                        commentDetails.append(commentContent);
+
+
+                        // 将评论详情元素添加到评论元素中
+                        commentElement.append(commentDetails);
+
+                        // 将新的评论元素添加到模态框的内容中
+                        modalContent.append(commentElement);
+                    }else{
+                        // 创建一个新的评论元素
+                        var commentElement = $("<div></div>").addClass("comment");
+                        // 创建一个包含头像和名称的用户信息元素
+                        var userInfo = $("<div></div>").addClass("user-info");
+                        // 添加评论者头像元素
+                        var userAvatar = $("<img>").attr("src", 'http://localhost:8080/' + comment.masterUrl).addClass("user-avatar");
+                        userInfo.append(userAvatar);
+                        // 将用户信息元素添加到评论元素中
+                        commentElement.append(userInfo);
+                        // 创建一个包含评论内容、评论者和时间戳的评论详情元素
+                        var commentDetails = $("<div></div>").addClass("comment-details");
+                        // 添加评论者元素
+                        var commenter = $("<p></p>").addClass("commenter").text("评论者: " + comment.userNickName);
+                        commentDetails.append(commenter);
+
+                        var commentContent = $("<h4></h4>").text(comment.commentContent);
+                        commentDetails.append(commentContent);
+                        // 将评论详情元素添加到评论元素中
+                        commentElement.append(commentDetails);
+
+                        // 创建一个评论按钮并将其添加到评论详情元素
+                        var replyButton = $("<button></button>").addClass("btn btn-link reply-comment").text("回复");
+                        commentDetails.append(replyButton);
+
+                        // 将新的评论元素添加到模态框的内容中
+                        modalContent.append(commentElement);
+                    }
+                });
+
+                // 显示评论模态框
+                commentsModal.show();
+            }
+        }
+        )
+    });
 </script>
 </body>
 </html>

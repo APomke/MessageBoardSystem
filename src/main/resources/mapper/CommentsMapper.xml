@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.mbs.dao.CommentsMapper">
     <insert id="addComments" parameterType="com.example.mbs.pojo.Comments">
-        insert into comments (messageId, commentUserId, commentContent, commentLevel, commentTime)
-        VALUES (#{messageId},#{commentUserId},#{commentContent},#{commentLevel},#{commentTime})
+        insert into comments (messageId, commentUserId, commentContent, commentLevel, commentTime,masterUrl,mainComments,userNickName)
+        VALUES (#{messageId},#{commentUserId},#{commentContent},#{commentLevel},#{commentTime},#{masterUrl},#{mainComments},#{userNickName})
     </insert>
     <select id="queryCommentsByMessageId" parameterType="int" resultType="com.example.mbs.pojo.Comments">
         select * from comments where messageId=#{messageId}

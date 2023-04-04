@@ -233,6 +233,30 @@
 </footer>
 <script th:src="@{/js/jquery.js}"></script>
 <script>
+    // 监听删除留言按钮的点击事件
+    $(".delete-tweet").click(function() {
+        var tweetId = $(this).data("tweet-id"); // 获取要删除的留言ID
+
+        // 发送AJAX请求
+        $.ajax({
+            type: "POST",
+            url: "/delete-tweet", // 后端处理删除留言的接口地址
+            data: { tweetId: tweetId },
+            success: function(response) { // 处理后端响应
+                if (response.success) { // 删除留言成功
+                    console.log("留言删除成功");
+                    // 从页面上移除已删除的留言
+                    $('#tweet-' + tweetId).remove();
+                } else {
+                    alert("删除留言失败：" + response.message); // 处理删除留言失败的情况
+                }
+            },
+            error: function() { // 处理请求异常情况
+                alert("请求出错，请重试！");
+            }
+        });
+    });
+
     document.addEventListener("DOMContentLoaded", function () {
         const modal = document.getElementById("messageModal");
         const closeModalButton = document.getElementById("closeModalButton");

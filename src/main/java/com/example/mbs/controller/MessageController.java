@@ -42,7 +42,8 @@ public class MessageController {
         Date date = new Date(); // 获取当前时间
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 创建一个日期格式化对象
         String now = dateFormat.format(date); // 将日期对象转化为字符串
-        Message message1 = new Message(0,user.getId(),title,message,0,typeId,0,"无",now);
+
+        Message message1 = new Message(0,user.getId(),title,message,0,typeId,0,"无",now,user.getNickname());
         int s = messageService.addMessage(message1);
         // 然后返回相应的响应
         if (s == 1){
