@@ -18,6 +18,11 @@ public class CommentsServiceImpl implements CommentsService{
     }
 
     @Override
+    public int addComments2(Comments comments) {
+        return commentsMapper.addComments2(comments);
+    }
+
+    @Override
     public List<Comments> queryCommentsByMessageId(int messageId) {
         return commentsMapper.queryCommentsByMessageId(messageId);
     }
@@ -40,5 +45,10 @@ public class CommentsServiceImpl implements CommentsService{
     @Override
     public int deleteAllCommentsByMessageId(int messageId) {
         return commentsMapper.deleteAllCommentsByMessageId(messageId);
+    }
+
+    @Override
+    public Comments queryGetCommentsById(int commentsId) {
+        return commentsMapper.queryGetCommentsById(commentsId);
     }
 }

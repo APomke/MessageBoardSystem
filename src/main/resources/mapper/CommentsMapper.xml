@@ -5,11 +5,17 @@
 
 <mapper namespace="com.example.mbs.dao.CommentsMapper">
     <insert id="addComments" parameterType="com.example.mbs.pojo.Comments">
+        insert into comments (messageId, commentUserId, commentContent, commentLevel, commentTime,masterUrl,userNickName)
+        VALUES (#{messageId},#{commentUserId},#{commentContent},#{commentLevel},#{commentTime},#{masterUrl},#{userNickName})
+    </insert>
+    <insert id="addComments2" parameterType="com.example.mbs.pojo.Comments">
         insert into comments (messageId, commentUserId, commentContent, commentLevel, commentTime,masterUrl,mainComments,userNickName)
         VALUES (#{messageId},#{commentUserId},#{commentContent},#{commentLevel},#{commentTime},#{masterUrl},#{mainComments},#{userNickName})
     </insert>
     <select id="queryCommentsByMessageId" parameterType="int" resultType="com.example.mbs.pojo.Comments">
-        select * from comments where messageId=#{messageId}
+        SELECT * FROM comments
+        WHERE messageId = #{messageId}
+        ORDER BY (CASE WHEN mainComments IS NULL THEN commentId ELSE mainComments END) ASC, commentLevel ASC, commentId ASC;
     </select>
     <select id="queryAllComments" resultType="com.example.mbs.pojo.Comments">
         select * from comments
@@ -23,4 +29,7 @@
     <delete id="deleteAllCommentsByMessageId" parameterType="int">
         delete from comments where messageId=#{messageId}
     </delete>
+    <select id="queryGetCommentsById" parameterType="int" resultType="com.example.mbs.pojo.Comments">
+        select * from comments where commentId = #{commentsId}
+    </select>
 </mapper>

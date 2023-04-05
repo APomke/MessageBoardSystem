@@ -24,4 +24,6 @@ public interface MessageService {
     List<Message> queryMessageByType(int typeId);
     //通过id查询留言
     Message getMessageById(int id);
+    //通过评论id获取留言id
+    Message getMessageByCommentsId(int messageId);
 }

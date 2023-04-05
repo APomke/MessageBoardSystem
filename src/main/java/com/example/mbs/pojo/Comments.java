@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Comments {
     private int commentId;
     private int messageId;
@@ -15,6 +14,29 @@ public class Comments {
     private int commentLevel;
     private String commentTime;
     private String masterUrl;
-    private int mainComment;
+    private int mainComments;
     private String userNickName;
+
+    public Comments(int commentId, int messageId, int commentUserId, String commentContent, int commentLevel, String commentTime, String masterUrl, String userNickName) {
+        this.commentId = commentId;
+        this.messageId = messageId;
+        this.commentUserId = commentUserId;
+        this.commentContent = commentContent;
+        this.commentLevel = commentLevel;
+        this.commentTime = commentTime;
+        this.masterUrl = masterUrl;
+        this.userNickName = userNickName;
+    }
+
+    public Comments(int commentId, int messageId, int commentUserId, String commentContent, int commentLevel, String commentTime, String masterUrl, int mainComments, String userNickName) {
+        this.commentId = commentId;
+        this.messageId = messageId;
+        this.commentUserId = commentUserId;
+        this.commentContent = commentContent;
+        this.commentLevel = commentLevel;
+        this.commentTime = commentTime;
+        this.masterUrl = masterUrl;
+        this.mainComments = mainComments;
+        this.userNickName = userNickName;
+    }
 }

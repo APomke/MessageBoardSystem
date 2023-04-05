@@ -29,5 +29,7 @@ public interface MessageMapper {
     List<Message> queryMessageByType(@Param("typeId") int typeId);
     //通过id查询留言
     Message getMessageById(@Param("messageIds") int id);
+    //通过评论id获取留言id
+    Message getMessageByCommentsId(@Param("commentsId") int messageId);
 
 }

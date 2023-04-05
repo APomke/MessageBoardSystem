@@ -42,6 +42,9 @@
         .comment {
             display: flex;
             margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ccc;
         }
 
         .user-info {
@@ -135,7 +138,7 @@
                 <button class="btn btn-link view-comments" th:data-tweet-id="${message.id}">查看评论</button>
                 <button class="btn btn-link like-tweet" th:data-tweet-id="${message.id}">点赞</button>
             </div>
-            <form action="/message/comment" method="post">
+            <form th:id="'comment-form-' + ${message.id}" action="/comments/submit" method="post">
                 <input type="text" placeholder="请输入评论..." name="content">
                 <input type="hidden" name="messageId" th:value="${message.id}">
                 <button type="submit">发送评论</button>
@@ -157,6 +160,34 @@
 
 <script th:src="@{/js/jquery.js}"></script>
 <script>
+
+    //监听提交评论按钮
+    document.addEventListener('DOMContentLoaded', function() {
+        const commentForms = document.querySelectorAll("form[id^='comment-form-']");
+
+        commentForms.forEach(form => {
+            form.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(form);
+                const xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        alert("评论已发送");
+                        form.reset();
+                    }else{
+                        // 请求失败，显示错误消息
+                        alert('发送评论时发生错误，请稍后再试');
+                    }
+                };
+
+                xhr.open("POST", form.getAttribute("action"), true);
+                xhr.send(formData);
+            });
+        });
+    });
+
     // 监听点赞按钮的点击事件
     $(".like-tweet").click(function() {
         var tweetId = $(this).data("tweet-id"); // 获取点赞的留言ID
@@ -186,6 +217,8 @@
     function closeModal() {
         commentsModal.hide();
     }
+
+
     //监听查看评论按钮事件
     $(".view-comments").click(function (){
         var tweetId = $(this).data("tweet-id");//获取要查看留言的id
@@ -258,12 +291,51 @@
                         // 将评论详情元素添加到评论元素中
                         commentElement.append(commentDetails);
 
-                        // 创建一个评论按钮并将其添加到评论详情元素
+                        // 在回复按钮左边添加一个输入框
+                        var replyInput = $("<input>").addClass("form-control reply-input").attr("placeholder", "回复内容");
+                        commentDetails.append(replyInput);
+
+                        // 创建一个回复按钮并将其添加到评论详情元素
                         var replyButton = $("<button></button>").addClass("btn btn-link reply-comment").text("回复");
                         commentDetails.append(replyButton);
 
+                        // 设置回复按钮的点击事件处理器
+                        replyButton.click(function () {
+                            // 获取输入框中的回复内容
+                            var replyContent = replyInput.val().trim();
+
+                            // 检查回复内容是否为空
+                            if (replyContent === '') {
+                                alert('回复内容不能为空');
+                                return;
+                            }
+
+                            // 使用 AJAX 提交回复内容
+                            $.ajax({
+                                url: '/comments/submitto', // 替换为实际的 API URL
+                                type: 'POST',
+                                data: {
+                                    commentId: comment.commentId, // 假设 comment 对象包含评论 ID
+                                    replyContent: replyContent
+                                },
+                                success: function (response) {
+                                    // 处理成功的回复
+                                    if (response.success) {
+                                        // 在此处添加处理成功回复的逻辑，例如向评论列表添加新回复元素
+                                        alert('回复已成功提交');
+                                    } else {
+                                        alert('提交回复时发生错误');
+                                    }
+                                },
+                                error: function () {
+                                    alert('提交回复时发生错误');
+                                }
+                            });
+                        });
+
                         // 将新的评论元素添加到模态框的内容中
                         modalContent.append(commentElement);
+
                     }
                 });
 
@@ -271,6 +343,8 @@
                 commentsModal.show();
             }
         }
+
+
         )
     });
 </script>

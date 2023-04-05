@@ -37,4 +37,8 @@
         select * from message where id=#{messageIds}
     </select>
 
+    <select id="getMessageByCommentsId" parameterType="int" resultType="com.example.mbs.pojo.Message">
+        select * from message where id=#{commentsId}
+    </select>
+
 </mapper>

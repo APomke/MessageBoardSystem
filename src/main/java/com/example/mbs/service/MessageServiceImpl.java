@@ -56,4 +56,9 @@ public class MessageServiceImpl implements MessageService{
     public Message getMessageById(int id) {
         return messageMapper.getMessageById(id);
     }
+
+    @Override
+    public Message getMessageByCommentsId(int messageId) {
+        return messageMapper.getMessageByCommentsId(messageId);
+    }
 }
