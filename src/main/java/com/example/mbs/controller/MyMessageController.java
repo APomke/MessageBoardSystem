@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class MyMessageController {
@@ -30,8 +31,16 @@ public class MyMessageController {
         //从session中取出user
         User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
         model.addAttribute("user",user);
-        //获取这个用户的留言
-        List<Message> messageList = messageService.queryMessageByUser(user.getId());
+        //判断其是否是管理员
+        List<Message> messageList = new ArrayList<>();
+        if (Objects.equals(user.getRole(), "管理员")){
+            //获取所有留言
+            messageList = messageService.queryAllMessage();
+            model.addAttribute("msg","由于你是管理员所以拥有管理所有留言的权限");
+        }else {
+            //获取这个用户的留言
+            messageList = messageService.queryMessageByUser(user.getId());
+        }
         List<Message> newMessageList = new ArrayList<>();
         //根据用户id获取用户头像
         for (Message message:messageList){

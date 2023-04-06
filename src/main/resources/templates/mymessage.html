@@ -132,6 +132,20 @@
             color: #333;
         }
 
+        .custom-message {
+            font-size: 16px;
+            font-weight: 400;
+            color: #333333;
+            text-align: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            margin: 20px auto;
+        }
+
 
     </style>
 </head>
@@ -143,8 +157,9 @@
     <nav>
         <ul>
             <li><a th:href="@{/personal}">个人中心</a></li>
-            <li><a href="#">消息</a></li>
+            <li><a th:href="@{/message/index}">公司留言板</a></li>
             <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:href="@{/loginout}">注销</a></li>
         </ul>
     </nav>
     <form action="#" method="get">
@@ -212,6 +227,8 @@
 
 
 
+    <p class="custom-message" th:text="${msg}"></p>
+
     <div th:each="message : ${messageList}" class="tweet" th:id="'tweet-' + ${message.id}">
         <img th:src="'/' + ${message.getImagePath}" alt="Profile picture">
         <div>
@@ -219,8 +236,6 @@
             <p th:text="${message.getContent()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut porttitor leo vitae velit vestibulum, eu scelerisque diam feugiat. Sed malesuada dignissim purus.</p>
             <small th:text="${message.getTime()}">10:30 AM - 31 Mar 2023</small>
             <div class="actions">
-                <button class="btn btn-link view-comments">查看评论</button>
-                <button class="btn btn-link like-tweet" th:data-tweet-id="${message.id}">点赞</button>
                 <button class="btn btn-link delete-tweet" th:data-tweet-id="${message.id}">删除留言</button>
             </div>
         </div>
@@ -293,7 +308,7 @@
                 success: function (response) { // 处理后端响应
                     if (response.success) { // 添加留言成功
                         console.log("留言添加成功");
-                        // 在这里，您可以将新留言添加到页面上，或者重新加载页面以显示新留言
+                        location.reload(); // 刷新页面
                     } else {
                         alert("添加留言失败：" + response.message); // 处理添加留言失败的情况
                     }

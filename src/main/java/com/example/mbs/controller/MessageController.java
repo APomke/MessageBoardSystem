@@ -7,6 +7,8 @@ import com.example.mbs.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,16 +28,7 @@ public class MessageController {
         System.out.println("添加了一条留言");
         System.out.println("获取的内容是：" + message);
         System.out.println("获取的标签是：" + type);
-        int typeId = 0;
-        if (Objects.equals(type, "公务")){
-            typeId = 1;
-        }else if (Objects.equals(type, "通知")){
-            typeId = 2;
-        }else if (Objects.equals(type, "其它")){
-            typeId = 3;
-        }else if (Objects.equals(type, "生活")){
-            typeId = 4;
-        }
+        int typeId = Integer.parseInt(type);
         System.out.println("获取的标题的：" + title);
         // 将留言保存到数据库
         User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
@@ -44,6 +37,7 @@ public class MessageController {
         String now = dateFormat.format(date); // 将日期对象转化为字符串
 
         Message message1 = new Message(0,user.getId(),title,message,0,typeId,0,"无",now,user.getNickname());
+        System.out.println("controller层的信息为： " + message1.toString());
         int s = messageService.addMessage(message1);
         // 然后返回相应的响应
         if (s == 1){
@@ -73,4 +67,5 @@ public class MessageController {
             return message;
         }
     }
+
 }

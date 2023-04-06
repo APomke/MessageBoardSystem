@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/personal_center.css}">
 </head>
 <body>
+
 <!-- Header -->
 <header>
     <h1 class="logo">MBS</h1>
@@ -13,7 +14,8 @@
         <ul>
             <li><a th:href="@{/message/index}">公司留言板</a></li>
             <li><a href="#">消息</a></li>
-            <li><a href="#">我的留言</a></li>
+            <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:href="@{/loginout}">注销</a></li>
         </ul>
     </nav>
     <form action="#" method="get">

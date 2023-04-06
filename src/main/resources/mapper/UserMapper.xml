@@ -27,4 +27,7 @@
     <delete id="deleteUser" parameterType="int">
         delete from user where id=#{id}
     </delete>
+    <select id="getUserByAccount" parameterType="String" resultType="com.example.mbs.pojo.User">
+        select * from user where account=#{Account}
+    </select>
 </mapper>

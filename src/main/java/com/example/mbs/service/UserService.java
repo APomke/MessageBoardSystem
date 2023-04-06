@@ -1,6 +1,7 @@
 package com.example.mbs.service;
 
 import com.example.mbs.pojo.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface UserService {
     User getUserByAccountAndPassword(String account,String password);
     //通过昵称获取用户
     User getUserByNickname(String nickname);
+    //通过用户名获取用户
+    User getUserByAccount(String account);
 
     //添加用户
     int addUser(User user);

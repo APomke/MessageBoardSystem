@@ -6,6 +6,12 @@ import com.example.mbs.pojo.Message;
 import com.example.mbs.pojo.User;
 import com.example.mbs.service.*;
 import com.example.mbs.utils.Constants;
+import org.apache.catalina.security.SecurityUtil;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
 import org.springframework.core.io.ResourceLoader;
@@ -15,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.mail.Session;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -73,6 +78,22 @@ public class LoginController {
         if (user1 != null){
             //添加session
             request.getSession().setAttribute(Constants.USER_SESSION,user1);
+            //获取当前用户
+            Subject subject = SecurityUtils.getSubject();
+            //封装用户的登入数据
+            UsernamePasswordToken token = new UsernamePasswordToken(user.getAccount(),user.getPassword());
+
+            try {
+                subject.login(token);//执行登入的方法,会使用UserRealm的方法
+//                return "index";
+            }catch (UnknownAccountException e){//用户名不存在
+                model.addAttribute("msg","用户名错误");
+                return "login";
+            }catch (IncorrectCredentialsException e){//密码错误
+                model.addAttribute("msg","密码错误");
+                return "login";
+            }
+
             model.addAttribute("user",user1);
             List<Message> messageList = messageService.queryMessageLimitFive();
             List<Message> newMessageList = new ArrayList<>();
@@ -176,5 +197,13 @@ public class LoginController {
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("发送验证码失败");
         }
+    }
+
+    @RequestMapping("/loginout")
+    public String loginout(HttpServletRequest request){
+        //移除session
+        request.getSession().removeAttribute(Constants.USER_SESSION);
+
+        return "login";
     }
 }

@@ -18,6 +18,8 @@ public interface UserMapper {
     User getUserByAccountAndPassword(String account,String password);
     //通过昵称获取用户
     User getUserByNickname(String nickname);
+    //通过用户名获取用户
+    User getUserByAccount(@Param("Account") String account);
 
     //添加用户
     int addUser(User user);

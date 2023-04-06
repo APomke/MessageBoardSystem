@@ -40,9 +40,13 @@ public class CommentsController {
         int messageIds = Math.toIntExact(messageId);
         Comments comments = new Comments(0,messageIds,user.getId(),content,1,now,user.getAvatarUrl(), user.getNickname());
 
+        System.out.println(comments.toString());
+
         int s = commentsService.addComments(comments);
+        System.out.println("s为：" + s);
         if (s == 1){
             // 假设我们成功保存了评论，返回一个成功的响应
+            System.out.println("评论添加成功");
             return new ResponseEntity<>("评论已成功发送", HttpStatus.OK);
         }else {
             return new ResponseEntity<>("评论发送失败", HttpStatus.OK);
