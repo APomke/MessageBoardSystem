@@ -1,7 +1,9 @@
 package com.example.mbs.controller;
 
+import com.example.mbs.pojo.Comments;
 import com.example.mbs.pojo.Message;
 import com.example.mbs.pojo.User;
+import com.example.mbs.service.CommentsServiceImpl;
 import com.example.mbs.service.MessageServiceImpl;
 import com.example.mbs.service.UserServiceImpl;
 import com.example.mbs.utils.Constants;
@@ -25,6 +27,8 @@ public class MyMessageController {
     private UserServiceImpl userService;
     @Autowired
     private MessageServiceImpl messageService;
+    @Autowired
+    private CommentsServiceImpl commentsService;
 
     @RequestMapping("/myMessage")
     public String myMessage(Model model, HttpServletRequest request){
@@ -58,6 +62,8 @@ public class MyMessageController {
     public ResponseEntity<ApiResponse> deleteTweet(@RequestParam("tweetId") Long tweetId){
         System.out.println("删除了一次留言");
         messageService.deleteMessage(Math.toIntExact(tweetId));
+        //同时删除留言里的评论
+        commentsService.deleteAllCommentsByMessageId(Math.toIntExact(tweetId));
         // 处理删除请求，并返回响应数据
         ApiResponse response = new ApiResponse(true, "删除成功！");
         return new ResponseEntity<>(response, HttpStatus.OK);
