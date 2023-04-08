@@ -24,21 +24,6 @@
     </form>
 </header>
 
-<!-- User profile -->
-<!--<aside>-->
-<!--    <div class="user-profile">-->
-<!--        <img th:src="'/' + ${user.getAvatarUrl()}" alt="Profile picture">-->
-<!--        <h3 th:text="${user.getNickname()}"></h3>-->
-<!--        <p th:text="${user.getEmail()}">@johndoe</p>-->
-<!--        <p>-->
-<!--            <span th:if="${user.getDeptId() == 1}">管理部</span>-->
-<!--            <span th:if="${user.getDeptId() == 2}">运营部</span>-->
-<!--            <span th:if="${user.getDeptId() == 3}">财务部</span>-->
-<!--            <span th:if="${user.getDeptId() == 4}">技术部</span>-->
-<!--        </p>-->
-<!--    </div>-->
-<!--</aside>-->
-
 <!-- Announcements -->
 <section>
     <h2>公司公告</h2>
@@ -253,6 +238,7 @@
                                         if (response.success) {
                                             // 在此处添加处理成功回复的逻辑，例如向评论列表添加新回复元素
                                             alert('回复已成功提交');
+                                            location.reload(); // 刷新页面
                                         } else {
                                             alert('提交回复时发生错误');
                                         }
