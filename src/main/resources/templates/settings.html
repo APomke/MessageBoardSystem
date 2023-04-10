@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个性化设置</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/personal_center.css}">
+
+    <style>
+        /* 设置背景 */
+        body {
+            background-image: url('../[[${backgroundImagePath}]]');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        a {
+            text-decoration: none;
+        }
+
+        input[type="file"] {
+            border: none;
+            outline: none;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+            background-color: #f2f2f2;
+            color: #555;
+            font-size: 16px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        .button-group button:hover {
+            background-color: #555;
+        }
+
+
+    </style>
+</head>
+<body class="background-image">
+
+<!-- Header -->
+<header>
+    <h1 class="logo">MBS</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <nav>
+        <ul>
+            <li><a th:href="@{/message/index}">公司留言板</a></li>
+            <li><a href="#">消息</a></li>
+            <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:href="@{/loginout}">注销</a></li>
+        </ul>
+    </nav>
+    <form action="#" method="get">
+        <input type="text" placeholder="搜索留言">
+        <button type="submit">搜索</button>
+    </form>
+</header>
+
+<!-- User profile -->
+<form th:action="@{/settingsto}" enctype="multipart/form-data" method="post">
+    <section class="user-profile">
+        <center><img th:src="'/' + ${user.getAvatarUrl()}" alt="Profile picture"></center>
+        <center><label for="avatar">更换头像</label></center><br>
+        <center><input type="file" id="avatar" name="avatar"></center>
+        <br><br><br><br><br>
+        <center><img th:src="'/' + ${backgroundImagePath}" alt="Profile picture"></center>
+        <center><label for="avatar">更换背景</label></center><br>
+        <center><input type="file" id="bj" name="bj"></center>
+    </section>
+    <div class="button-group">
+        <button type="submit">保存更改</button>
+    </div>
+</form>
+
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 公司留言板系统 2023</p>
+</footer>
+</body>
+</html>

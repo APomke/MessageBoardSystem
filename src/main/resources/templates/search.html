@@ -4,8 +4,19 @@
     <title>公司留言板系统</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/modal.css}">
+
+    <style>
+        /* 设置背景 */
+        body {
+            background-image: url('../[[${backgroundImagePath}]]');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+    </style>
 </head>
-<body>
+<body class="background-image">
 <!-- Header -->
 <header>
     <h1 class="logo">MBS</h1>

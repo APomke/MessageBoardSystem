@@ -3,8 +3,23 @@
 <head>
     <title>个人中心</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/personal_center.css}">
+
+    <style>
+        /* 设置背景 */
+        body {
+            background-image: url('../[[${backgroundImagePath}]]');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        a {
+            text-decoration: none;
+        }
+
+    </style>
 </head>
-<body>
+<body class="background-image">
 
 <!-- Header -->
 <header>
@@ -35,7 +50,8 @@
         <span th:if="${user.getDeptId() == 3}">财务部</span>
         <span th:if="${user.getDeptId() == 4}">技术部</span>
     </p>
-    <button>编辑个人资料</button>
+    <button><a href="/edit-profile">编辑个人资料</a></button>
+    <button><a href="/customize-settings">个性化设置</a></button>
 </section>
 
 <!-- Personal information -->

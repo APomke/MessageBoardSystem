@@ -1,9 +1,6 @@
 package com.example.mbs.controller;
 
-import com.example.mbs.pojo.Code;
-import com.example.mbs.pojo.Comments;
-import com.example.mbs.pojo.Message;
-import com.example.mbs.pojo.User;
+import com.example.mbs.pojo.*;
 import com.example.mbs.service.*;
 import com.example.mbs.utils.Constants;
 import org.apache.catalina.security.SecurityUtil;
@@ -51,6 +48,9 @@ public class LoginController {
     @Autowired
     private CommentsServiceImpl commentsService;
 
+    @Autowired
+    private BgImageServiceImpl bgImageService;
+
 
     @PostMapping("/message/index")
     public String login(User user, Model model, HttpServletRequest request){
@@ -69,6 +69,11 @@ public class LoginController {
                     message.setImagePath(userId.getAvatarUrl());
                     newMessageList.add(message);
                 }
+            }
+            //获取个性化背景图
+            BgImage bgImage = bgImageService.getImageByUserId(user1.getId());
+            if (bgImage != null) {
+                model.addAttribute("backgroundImagePath",bgImage.getImagePath());
             }
             model.addAttribute("messageList",newMessageList);
             return "index";
@@ -105,6 +110,10 @@ public class LoginController {
                     newMessageList.add(message);
                 }
             }
+            BgImage bgImage = bgImageService.getImageByUserId(user1.getId());
+            if (bgImage != null) {
+                model.addAttribute("backgroundImagePath",bgImage.getImagePath());
+            }
             model.addAttribute("messageList",newMessageList);
             return "index";
         }
@@ -131,6 +140,10 @@ public class LoginController {
                     message.setImagePath(userId.getAvatarUrl());
                     newMessageList.add(message);
                 }
+            }
+            BgImage bgImage = bgImageService.getImageByUserId(user.getId());
+            if (bgImage != null) {
+                model.addAttribute("backgroundImagePath",bgImage.getImagePath());
             }
             model.addAttribute("messageList",newMessageList);
             return "index";

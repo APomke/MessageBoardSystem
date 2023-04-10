@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.BgImageMapper">
+    <select id="getImageByUserId" parameterType="int" resultType="com.example.mbs.pojo.BgImage">
+        select * from bgimage where userId=#{userId}
+    </select>
+
+    <select id="getAllImage" resultType="com.example.mbs.pojo.BgImage">
+        select * from bgimage
+    </select>
+
+    <insert id="addImage" parameterType="com.example.mbs.pojo.BgImage">
+        insert into bgimage (userId, userNickName, imagePath) VALUES (#{userId},#{userNickName},#{imagePath})
+    </insert>
+
+    <delete id="deleteImageByUserId" parameterType="int">
+        delete from bgimage where userId=#{userIds}
+    </delete>
+
+    <update id="updateImage" parameterType="com.example.mbs.pojo.BgImage">
+        update bgimage set userNickName=#{userNickName},imagePath=#{imagePath} where userId=#{userId}
+    </update>
+</mapper>

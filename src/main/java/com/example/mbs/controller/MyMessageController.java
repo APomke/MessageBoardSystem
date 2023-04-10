@@ -1,8 +1,10 @@
 package com.example.mbs.controller;
 
+import com.example.mbs.pojo.BgImage;
 import com.example.mbs.pojo.Comments;
 import com.example.mbs.pojo.Message;
 import com.example.mbs.pojo.User;
+import com.example.mbs.service.BgImageServiceImpl;
 import com.example.mbs.service.CommentsServiceImpl;
 import com.example.mbs.service.MessageServiceImpl;
 import com.example.mbs.service.UserServiceImpl;
@@ -29,6 +31,8 @@ public class MyMessageController {
     private MessageServiceImpl messageService;
     @Autowired
     private CommentsServiceImpl commentsService;
+    @Autowired
+    private BgImageServiceImpl bgImageService;
 
     @RequestMapping("/myMessage")
     public String myMessage(Model model, HttpServletRequest request){
@@ -53,6 +57,10 @@ public class MyMessageController {
                 message.setImagePath(userId.getAvatarUrl());
                 newMessageList.add(message);
             }
+        }
+        BgImage bgImage = bgImageService.getImageByUserId(user.getId());
+        if (bgImage != null) {
+            model.addAttribute("backgroundImagePath",bgImage.getImagePath());
         }
         model.addAttribute("messageList",newMessageList);
         return "mymessage";
