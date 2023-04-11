@@ -61,6 +61,8 @@
             <li><a th:href="@{/message/index}">公司留言板</a></li>
             <li><a href="#">消息</a></li>
             <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/userList}">用户列表</a> </li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/}">数据分析</a> </li>
             <li><a th:href="@{/loginout}">注销</a></li>
         </ul>
     </nav>

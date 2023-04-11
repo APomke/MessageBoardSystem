@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>黑名单用户列表</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <style>
+        .btn {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-primary {
+            background-color: #1da1f2;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0c8be6;
+            color: #ffffff;
+        }
+
+        .add-message {
+            margin-bottom: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #e6f2ff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .close {
+            color: #aaaaaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+            text-decoration: none;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background-color: #1da1f2;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0c8be6;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        /* 设置选择框的基本样式 */
+        select#tag {
+            font-size: 14px;
+            padding: 8px 12px;
+            border: 1px solid #b3d4f0;
+            border-radius: 4px;
+            background-color: #ffffff;
+            color: #333;
+            outline: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px;
+            box-sizing: border-box;
+        }
+
+        /* 设置选择框在获取焦点时的样式 */
+        select#tag:focus {
+            border-color: #80b0e0;
+            box-shadow: 0 0 5px rgba(128, 176, 224, 0.5);
+        }
+
+        /* 设置选择框的箭头样式 */
+        select#tag::-ms-expand {
+            display: none; /* 隐藏 IE/Edge 浏览器的默认箭头 */
+        }
+
+        /* 设置选择框的选项样式 */
+        select#tag option {
+            font-size: 14px;
+            padding: 8px 12px;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+
+        /* 设置背景 */
+        body {
+            background-image: url('../[[${backgroundImagePath}]]');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+    </style>
+</head>
+<body class="background-image">
+<!-- Header -->
+<header>
+    <h1 class="logo">MBS</h1>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <nav>
+        <ul>
+            <li><a th:href="@{/personal}">个人中心</a></li>
+            <li><a th:href="@{/message/index}">公司留言板</a></li>
+            <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/userList}">用户列表</a> </li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/}">数据分析</a> </li>
+            <li><a th:href="@{/loginout}">注销</a></li>
+        </ul>
+    </nav>
+    <form th:action="@{/message/search}" method="get">
+        <input type="text" name="text" placeholder="请输入留言标题">
+        <button type="submit">搜索</button>
+    </form>
+</header>
+<main>
+    <div th:each="user : ${userList}" class="tweet" th:id="'tweet-' + ${user.id}">
+    <img th:src="'/' + ${user.getAvatarUrl()}" alt="Profile picture">
+    <div>
+        <h4 th:text="${user.getNickname()}">John Doe</h4>
+        <p th:text="${user.getEmail()}">Lorem</p>
+    </div>
+    </div>
+</main>
+<!-- Footer -->
+<footer>
+    <p>&copy; 公司留言板系统 2023</p>
+</footer>
+<script th:src="@{/js/jquery.js}"></script>
+</body>
+</html>

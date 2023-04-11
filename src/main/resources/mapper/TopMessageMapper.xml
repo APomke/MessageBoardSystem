@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.TopMessageMapper">
+    <select id="getAllTopMessage" resultType="com.example.mbs.pojo.TopMessage">
+        select * from topmessage
+    </select>
+
+    <insert id="addTopMessage" parameterType="com.example.mbs.pojo.TopMessage">
+        insert into topmessage (messageId) values (#{messageId})
+    </insert>
+
+    <delete id="deleteTopMessage" parameterType="int">
+        delete from topmessage where messageId=#{messageIds}
+    </delete>
+</mapper>

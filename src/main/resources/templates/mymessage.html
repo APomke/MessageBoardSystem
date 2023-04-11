@@ -167,6 +167,8 @@
             <li><a th:href="@{/personal}">个人中心</a></li>
             <li><a th:href="@{/message/index}">公司留言板</a></li>
             <li><a th:href="@{/myMessage}">我的留言</a></li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/userList}">用户列表</a> </li>
+            <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/}">数据分析</a> </li>
             <li><a th:href="@{/loginout}">注销</a></li>
         </ul>
     </nav>
@@ -245,6 +247,12 @@
             <small th:text="${message.getTime()}">10:30 AM - 31 Mar 2023</small>
             <div class="actions">
                 <button class="btn btn-link delete-tweet" th:data-tweet-id="${message.id}">删除留言</button>
+                <button class="btn btn-link set-top-tweet" th:data-tweets-id="${message.id}" th:if="${user.getRole() == '管理员'}">
+                    <span>置顶留言</span>
+                </button>
+                <button class="btn btn-link set-cancel-tweet" th:data-tweets-id="${message.id}" th:if="${user.getRole() == '管理员'}">
+                    <span>取消置顶</span>
+                </button>
             </div>
         </div>
     </div>
@@ -256,6 +264,56 @@
 </footer>
 <script th:src="@{/js/jquery.js}"></script>
 <script>
+    //监听取消置顶按钮的点击事件
+    $(".set-cancel-tweet").click(function (){
+        var tweetId = $(this).data("tweets-id"); // 获取要置顶的留言ID
+        console.log("要取消置顶的留言id为：" + tweetId);
+
+        //发送ajax请求
+        $.ajax({
+            type: "POST",
+            url: "/cancel-tweet", // 后端处理删除留言的接口地址
+            data: { tweetId: tweetId },
+            success: function(response) { // 处理后端响应
+                if (response.success) { // 置顶留言成功
+                    alert("取消置顶留言成功");
+                } else {
+                    alert("取消置顶留言失败：" + response.message);
+                }
+            },
+            error: function() { // 处理请求异常情况
+                alert("请求出错，请重试！");
+            }
+        });
+
+    });
+
+
+    //监听置顶按钮的点击事件
+    $(".set-top-tweet").click(function () {
+        var tweetId = $(this).data("tweets-id"); // 获取要置顶的留言ID
+        console.log("要置顶的留言id为：" + tweetId);
+
+        //发送ajax请求
+        $.ajax({
+            type: "POST",
+            url: "/top-tweet", // 后端处理删除留言的接口地址
+            data: { tweetId: tweetId },
+            success: function(response) { // 处理后端响应
+                if (response.success) { // 置顶留言成功
+                    alert("置顶留言成功");
+                } else {
+                    alert("置顶留言失败：" + response.message);
+                }
+            },
+            error: function() { // 处理请求异常情况
+                alert("请求出错，请重试！");
+            }
+        });
+
+    });
+
+
     // 监听删除留言按钮的点击事件
     $(".delete-tweet").click(function() {
         var tweetId = $(this).data("tweet-id"); // 获取要删除的留言ID

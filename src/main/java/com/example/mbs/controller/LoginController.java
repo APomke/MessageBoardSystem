@@ -23,10 +23,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class LoginController {
@@ -51,6 +48,9 @@ public class LoginController {
     @Autowired
     private BgImageServiceImpl bgImageService;
 
+    @Autowired
+    private TopMessageServiceImpl topMessageService;
+
 
     @PostMapping("/message/index")
     public String login(User user, Model model, HttpServletRequest request){
@@ -62,6 +62,19 @@ public class LoginController {
             //获取前5条留言
             List<Message> messageList = messageService.queryMessageLimitFive();
             List<Message> newMessageList = new ArrayList<>();
+
+            //检测是否有置顶留言
+            List<Message> tempMessageList = new ArrayList<>();
+            List<TopMessage> toList = topMessageService.getAllTopMessage();
+            if (!toList.isEmpty()){
+                for (TopMessage topMessage:toList){
+                    tempMessageList.add(messageService.getMessageById(topMessage.getMessageId()));
+                    //如果最先获取到的5条留言里有置顶留言则移除
+                    messageList.removeAll(tempMessageList);
+                    messageList.add(0,messageService.getMessageById(topMessage.getMessageId()));
+                }
+            }
+
             //根据用户id获取用户头像
             for (Message message:messageList){
                 User userId = userService.getUserById(message.getMasterId());
@@ -102,6 +115,20 @@ public class LoginController {
             model.addAttribute("user",user1);
             List<Message> messageList = messageService.queryMessageLimitFive();
             List<Message> newMessageList = new ArrayList<>();
+
+
+            //检测是否有置顶留言
+            List<Message> tempMessageList = new ArrayList<>();
+            List<TopMessage> toList = topMessageService.getAllTopMessage();
+            if (!toList.isEmpty()){
+                for (TopMessage topMessage:toList){
+                    tempMessageList.add(messageService.getMessageById(topMessage.getMessageId()));
+                    //如果最先获取到的5条留言里有置顶留言则移除
+                    messageList.removeAll(tempMessageList);
+                    messageList.add(0,messageService.getMessageById(topMessage.getMessageId()));
+                }
+            }
+
             //根据用户id获取用户头像
             for (Message message:messageList){
                 User userId = userService.getUserById(message.getMasterId());
@@ -133,6 +160,19 @@ public class LoginController {
             model.addAttribute("user", user);
             List<Message> messageList = messageService.queryMessageLimitFive();
             List<Message> newMessageList = new ArrayList<>();
+
+            //检测是否有置顶留言
+            List<Message> tempMessageList = new ArrayList<>();
+            List<TopMessage> toList = topMessageService.getAllTopMessage();
+            if (!toList.isEmpty()){
+                for (TopMessage topMessage:toList){
+                    tempMessageList.add(messageService.getMessageById(topMessage.getMessageId()));
+                    //如果最先获取到的5条留言里有置顶留言则移除
+                    messageList.removeAll(tempMessageList);
+                    messageList.add(0,messageService.getMessageById(topMessage.getMessageId()));
+                }
+            }
+
             //根据用户id获取用户头像
             for (Message message:messageList){
                 User userId = userService.getUserById(message.getMasterId());

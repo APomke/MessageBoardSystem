@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mbs.dao.BlackListMapper">
+    <select id="getBlackListAll" resultType="com.example.mbs.pojo.User">
+        select id,account,password,nickname,role,deptId,email,avatarUrl from user INNER JOIN blacklist ON id=userId
+    </select>
+    <insert id="addBlackList" parameterType="com.example.mbs.pojo.BlackList">
+        insert into blacklist (userId) values (#{userId})
+    </insert>
+    <delete id="deleteBlackList" parameterType="int">
+        delete from blacklist where userId=#{userIds}
+    </delete>
+</mapper>

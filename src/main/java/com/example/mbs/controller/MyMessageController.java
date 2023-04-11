@@ -1,13 +1,7 @@
 package com.example.mbs.controller;
 
-import com.example.mbs.pojo.BgImage;
-import com.example.mbs.pojo.Comments;
-import com.example.mbs.pojo.Message;
-import com.example.mbs.pojo.User;
-import com.example.mbs.service.BgImageServiceImpl;
-import com.example.mbs.service.CommentsServiceImpl;
-import com.example.mbs.service.MessageServiceImpl;
-import com.example.mbs.service.UserServiceImpl;
+import com.example.mbs.pojo.*;
+import com.example.mbs.service.*;
 import com.example.mbs.utils.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +27,9 @@ public class MyMessageController {
     private CommentsServiceImpl commentsService;
     @Autowired
     private BgImageServiceImpl bgImageService;
+
+    @Autowired
+    private TopMessageServiceImpl topMessageService;
 
     @RequestMapping("/myMessage")
     public String myMessage(Model model, HttpServletRequest request){
@@ -77,6 +74,32 @@ public class MyMessageController {
         return new ResponseEntity<>(response, HttpStatus.OK);
 
     };
+
+    //置顶留言请求
+    @PostMapping("/top-tweet")
+    public ResponseEntity<ApiResponse> topTweet(@RequestParam("tweetId") Long tweetId){
+        System.out.println("置顶了一次留言");
+        TopMessage topMessage = new TopMessage(Math.toIntExact(tweetId));
+        topMessageService.addTopMessage(topMessage);
+        // 处理置顶请求，并返回响应数据
+        ApiResponse response = new ApiResponse(true, "置顶成功！");
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    };
+
+    //取消置顶留言请求
+    @PostMapping("/cancel-tweet")
+    public ResponseEntity<ApiResponse> cancelTweet(@RequestParam("tweetId") Long tweetId){
+        System.out.println("取消置顶了一次留言");
+        int s = topMessageService.deleteTopMessage(Math.toIntExact(tweetId));
+        if (s == 1){
+            ApiResponse response = new ApiResponse(true, "取消置顶成功！");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }else{
+            ApiResponse response = new ApiResponse(false, "该留言并未设置置顶");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+    }
+
     public static class ApiResponse {
         private final boolean success;
         private final String message;
