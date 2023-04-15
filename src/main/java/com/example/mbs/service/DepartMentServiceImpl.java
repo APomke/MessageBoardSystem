@@ -18,6 +18,11 @@ public class DepartMentServiceImpl implements DepartMentService{
     }
 
     @Override
+    public Department getDeptById(int deptId) {
+        return departMentMapper.getDeptById(deptId);
+    }
+
+    @Override
     public List<Department> getAllDept() {
         return departMentMapper.getAllDept();
     }

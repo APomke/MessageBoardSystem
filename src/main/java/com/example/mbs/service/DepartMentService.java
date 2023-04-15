@@ -1,12 +1,15 @@
 package com.example.mbs.service;
 
 import com.example.mbs.pojo.Department;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 public interface DepartMentService {
     //获取部门总数
     Department getDeptCount(Department department);
+    //根据部门id获取部门
+    Department getDeptById(int deptId);
     //获取所有部门
     List<Department> getAllDept();
     //部门添加人数

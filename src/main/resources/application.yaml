@@ -32,6 +32,10 @@ spring:
             required: false
           #开启debug模式，这样邮件发送过程的日志会在控制台打印出来，方便排查错误
         debug: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 mybatis:
   type-aliases-package: com.example.mbs.pojo
   mapper-locations: classpath:mapper/*.xml

@@ -34,7 +34,6 @@
     <nav>
         <ul>
             <li><a th:href="@{/personal}">个人中心</a></li>
-            <li><a href="#">消息</a></li>
             <li><a th:href="@{/myMessage}">我的留言</a></li>
             <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/userList}">用户列表</a> </li>
             <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/analysis}">数据分析</a> </li>

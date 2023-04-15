@@ -51,6 +51,9 @@ public class LoginController {
     @Autowired
     private TopMessageServiceImpl topMessageService;
 
+    @Autowired
+    private DepartMentServiceImpl departMentService;
+
 
     @PostMapping("/message/index")
     public String login(User user, Model model, HttpServletRequest request){
@@ -214,6 +217,12 @@ public class LoginController {
         System.out.println("获取到的注册信息为：" + user.toString());
         //添加用户到数据库
         int s = userService.addUser(user);
+        //获取对应部门人数
+        Department department = departMentService.getDeptById(user.getDeptId());
+        int count = department.getDeptSize();
+        count++;
+        department.setDeptSize(count);
+        departMentService.addDeptCount(department);
         if (s == 1){
             return "email";
         }

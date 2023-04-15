@@ -101,7 +101,7 @@ public class PersonalController {
             //判断用户是否设置过背景
             int userId = user.getId();
             BgImage bgImage = bgImageService.getImageByUserId(userId);
-            if (bgImage.getImagePath() != null) {
+            if (bgImage != null) {
                 //修改
                 bgImage.setImagePath("images/" + newFileName);
                 bgImageService.updateImage(bgImage);

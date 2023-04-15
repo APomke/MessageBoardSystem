@@ -18,4 +18,8 @@
     <update id="removeDeptCount" parameterType="com.example.mbs.pojo.Department">
         update department set deptSize=#{deptSize} where deptId=#{deptId}
     </update>
+
+    <select id="getDeptById" parameterType="int" resultType="com.example.mbs.pojo.Department">
+        select * from department where deptId=#{deptId}
+    </select>
 </mapper>

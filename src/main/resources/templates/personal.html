@@ -28,7 +28,6 @@
     <nav>
         <ul>
             <li><a th:href="@{/message/index}">公司留言板</a></li>
-            <li><a href="#">消息</a></li>
             <li><a th:href="@{/myMessage}">我的留言</a></li>
             <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/userList}">用户列表</a> </li>
             <li><a th:if="${user.getRole() == '管理员'}" th:href="@{/analysis}">数据分析</a> </li>
@@ -52,7 +51,6 @@
         <span th:if="${user.getDeptId() == 3}">财务部</span>
         <span th:if="${user.getDeptId() == 4}">技术部</span>
     </p>
-    <button><a href="/edit-profile">编辑个人资料</a></button>
     <button><a href="/customize-settings">个性化设置</a></button>
 </section>
 

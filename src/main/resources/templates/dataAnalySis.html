@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>黑名单用户列表</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/index.css}">
+    <title>数据分析</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/analysis.css}">
     <style>
         input[type="text"],
         textarea {
@@ -96,8 +96,9 @@
         <button type="submit">搜索</button>
     </form>
 </header>
+
 <script th:src="@{/js/echarts.js}"></script>
-<main>
+<aside>
     <div id="main" style="width: 600px;height:400px;"></div>
     <script>
         var chartDom = document.getElementById('main');
@@ -141,7 +142,78 @@
 
         option && myChart.setOption(option);
     </script>
+</aside>
+
+<script th:src="@{/js/echarts.js}"></script>
+<section>
+    <div id="main3" style="width: 600px;height:400px;"></div>
+    <script>
+        var chartDom3 = document.getElementById('main3');
+        var myChart3 = echarts.init(chartDom3);
+        var option3;
+
+        option3 = {
+            title: {
+                text: '留言发布趋势图',
+                subtext: '折线图',
+                left: 'center'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [[${data2}]],
+                    type: 'line',
+                    smooth: true
+                }
+            ]
+        };
+
+        option3 && myChart3.setOption(option3);
+    </script>
+</section>
+
+<script th:src="@{/js/echarts.js}"></script>
+<main>
+    <div id="main2" style="width: 600px;height:400px;"></div>
+
+    <script>
+        var chartDom2 = document.getElementById('main2');
+        var myChart2 = echarts.init(chartDom2);
+        var option2;
+
+        option2 = {
+            title: {
+                text: '各部门人数统计',
+                subtext: '柱状图',
+                left: 'center'
+            },
+            xAxis: {
+                type: 'category',
+                data: ['管理部', '运营部', '财务部', '技术部']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    data: [[${data}]],
+                    type: 'bar'
+                }
+            ]
+        };
+
+        option2 && myChart2.setOption(option2);
+
+    </script>
 </main>
+
+
 <!-- Footer -->
 </body>
 </html>
